@@ -2,35 +2,75 @@
  * NextUp - Your Meeting. On Schedule.
  *
  * (c) 2009 James Socol <me@jamessocol.com>
- * Design by Ben Curtis 
+ * Design by Ben Curtis
+ * Modernized with CSS Variables, Flexbox, and Responsive Design
  */
 
+:root {
+	--color-primary: #4c9e00;
+	--color-bg-light: #BED875;
+	--color-bg-gradient: linear-gradient(to bottom, #d1ed83, #BED875);
+	--color-border: #A7C259;
+	--color-input: #CADF90;
+	--color-button-bg: #B6DE46;
+	--color-button-hover: #d1ed83;
+	--color-button-active: #4C9E00;
+	--color-footer: #84A725;
+	--color-inactive: #a5b37c;
+	--color-inactive-bg: #efefef;
+	--color-text-dark: #444;
+	--color-text-light: #fff;
+	--color-shutdown-bg: #f9d42b;
+	--color-shutdown-border: #ed9900;
+
+	--max-width: 500px;
+	--spacing-unit: 8px;
+	--border-radius: 4px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 body {
-	font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-	background-color: #BED875;
-	background-repeat: repeat-x;
-	background-image: url(images/pagegradient-24.png);
-	color: #4c9e00;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	background: var(--color-bg-gradient);
+	color: var(--color-primary);
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 #nextup {
-	width: 500px;
-	margin: 100px auto 0;
+	width: 100%;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: calc(var(--spacing-unit) * 12.5) var(--spacing-unit) 0;
+	flex: 1;
+}
+
+@media (max-width: 600px) {
+	#nextup {
+		padding: calc(var(--spacing-unit) * 5) var(--spacing-unit) 0;
+	}
 }
 
 #header {
 	height: 118px;
-	width: 260px;
+	max-width: 260px;
 	margin: 0 auto;
 	text-align: center;
 	position: relative;
 }
 
 h1 {
-	margin: 0 0 16px 0;
+	margin: 0 0 calc(var(--spacing-unit) * 2) 0;
 	background-image: url(images/nextup.png);
 	background-repeat: no-repeat;
-	background-attachment: scroll;
 	background-position: top center;
 	height: 0;
 	padding-top: 73px;
@@ -42,71 +82,90 @@ h1 {
 	background-repeat: no-repeat;
 	background-position: bottom center;
 	height: 0;
-	padding-top: 20px;	
+	padding-top: 20px;
 	position: relative;
 	bottom: 0;
 	overflow: hidden;
 }
 
 #nextup-app {
-	padding-bottom: 25px;
+	padding-bottom: calc(var(--spacing-unit) * 3);
 }
 
 #footer {
-	width: 500px;
-	position: fixed;
+	width: 100%;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	position: sticky;
 	bottom: 0;
-	padding-bottom: 5px;
-	background-color: #BED875;
-	color: #84A725;
+	padding: var(--spacing-unit) 0 var(--spacing-unit);
+	background-color: var(--color-bg-light);
+	color: var(--color-footer);
 	text-align: center;
 }
 
 #footer a {
 	text-decoration: none;
-	border-bottom: 1px dotted #84A725;
-	color: #84A725;
+	border-bottom: 1px dotted var(--color-footer);
+	color: var(--color-footer);
+	transition: color 0.2s ease;
+}
+
+#footer a:hover {
+	color: var(--color-primary);
 }
 
 #agenda-items li,
 input {
-	border: 1px solid #A7C259;
-	font-size: 20px;
-	color: #CADF90;
-	padding: 4px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	font-size: clamp(16px, 4vw, 20px);
+	color: var(--color-input);
+	padding: calc(var(--spacing-unit) / 2);
 	font-weight: bold;
-	background-image: url(images/forms.png);
-	background-repeat: repeat-x;
-	background-position: top right;
-	background-color: #fff;
+	background: linear-gradient(to bottom, #fff, #f9f9f9);
+}
+
+input:focus {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
 }
 
 button {
-	border: 1px solid #A7C259;
-	font-size: 20px;
-	color: #fff;
-	padding: 4px 10px;
-	margin: 0 6px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	font-size: clamp(16px, 4vw, 20px);
+	color: var(--color-text-light);
+	padding: calc(var(--spacing-unit) / 2) calc(var(--spacing-unit) * 1.25);
+	margin: 0 calc(var(--spacing-unit) * 0.75);
 	font-weight: bold;
-	background: #B6DE46 url(images/button-24.png) repeat-x scroll 0 -85px;
+	background: linear-gradient(to bottom, var(--color-button-bg), #9ac73b);
 	text-shadow: 1px 1px 1px #333;
+	cursor: pointer;
+	transition: all 0.2s ease;
 }
 
 button:hover {
-	background-color: #d1ed83;
-	background-position: 0 -45px;
+	background: linear-gradient(to bottom, var(--color-button-hover), var(--color-button-bg));
+	transform: translateY(-1px);
 }
 
 button:active {
-	background-color: #4C9E00;
-	background-position: 0 -5px;
+	background: var(--color-button-active);
+	transform: translateY(0);
 }
 
-#agenta-items,
+button:focus {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+#agenda-items,
 #meeting-name {
-	width: 390px;
+	width: 100%;
+	max-width: 390px;
 	display: block;
-	margin: 10px auto;
+	margin: calc(var(--spacing-unit) * 1.25) auto;
 	text-align: center;
 }
 
@@ -119,8 +178,10 @@ button:active {
 
 #meeting-topics li {
 	text-align: center;
-	clear: both;
-	padding-top: 8px;
+	display: flex;
+	gap: calc(var(--spacing-unit) * 1.25);
+	padding-top: var(--spacing-unit);
+	flex-wrap: wrap;
 }
 
 #agenda-items span,
@@ -129,45 +190,60 @@ button:active {
 }
 
 #meeting-topics input.topic {
-	float: left;
-	margin-right: 10px;
-	width: 74%;
+	flex: 1;
+	min-width: 200px;
 }
 
 #meeting-topics input.time {
-	width: 20%;
+	flex: 0 0 20%;
+	min-width: 80px;
+}
+
+@media (max-width: 600px) {
+	#meeting-topics li {
+		flex-direction: column;
+	}
+
+	#meeting-topics input.topic,
+	#meeting-topics input.time {
+		width: 100%;
+		flex: 1;
+	}
 }
 
 #form-actions {
-	margin-top: 20px;
+	margin-top: calc(var(--spacing-unit) * 2.5);
 	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-unit);
+	justify-content: center;
 }
 
 #form-tooltip {
 	position: absolute;
-	height: 43px;
-	background-image: url(images/bubble.png);
-	background-position: top left;
-	background-repeat: no-repeat;
+	min-height: 43px;
+	background: #fff;
+	border: 2px solid var(--color-border);
+	border-radius: var(--border-radius);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	text-align: center;
 	color: #966;
+	z-index: 1000;
 }
 
 #form-tooltip span {
 	display: block;
 	margin: 0;
-	height: 32px;
-	padding: 7px 14px 4px 11px;
-	background-image: url(images/bubble.png);
-	background-position: bottom right;
-	background-repeat: no-repeat;
+	padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.75);
 	font-weight: bold;
+	font-size: 14px;
 }
 
 h2 {
-	font-size: 165%;
+	font-size: clamp(1.5rem, 5vw, 1.65rem);
 	text-align: center;
-	text-shadow: 0 1px 1px #d1ed83;
+	text-shadow: 0 1px 1px rgba(209, 237, 131, 0.5);
 }
 
 #over-actions,
@@ -179,30 +255,63 @@ h2 {
 
 #agenda-items li {
 	position: relative;
-	background-image: url(images/inactives.png);
+	background: linear-gradient(to bottom, var(--color-inactive-bg), #e5e5e5);
 	width: 80%;
-	color: #a5b37c;
-	background-color: #efefef;
-	padding-top: 2px;
-	margin: 8px auto 0;
+	color: var(--color-inactive);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	padding: calc(var(--spacing-unit) / 2);
+	margin: var(--spacing-unit) auto 0;
+	transition: all 0.3s ease;
 }
 
 #agenda-items li span.time {
 	position: absolute;
-	right: 3px;
-	top: 3px;
+	right: calc(var(--spacing-unit) / 2);
+	top: calc(var(--spacing-unit) / 2);
 }
 
 #agenda-items li.active {
 	width: 100%;
-	font-size: 160%;
-	background-color: #fff;
-	background-image: url(images/forms.png);
-	color: #444;
+	font-size: clamp(1.2rem, 5vw, 1.6rem);
+	background: linear-gradient(to bottom, #fff, #f9f9f9);
+	color: var(--color-text-dark);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#agenda-items li.less-than-60 {
+	background: linear-gradient(to bottom, #fff3cd, #ffeaa7);
+	animation: pulse 1s ease-in-out infinite;
+}
+
+#agenda-items li.less-than-15 {
+	background: linear-gradient(to bottom, #f8d7da, #f5c6cb);
+	animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02);
+	}
 }
 
 #shutdown {
-    background-color: #f9d42b;
-    border: 1px solid #ed9900;
-    padding: 8px;
+	background-color: var(--color-shutdown-bg);
+	border: 1px solid var(--color-shutdown-border);
+	border-radius: var(--border-radius);
+	padding: var(--spacing-unit);
+	margin: var(--spacing-unit) 0;
+}
+
+#shutdown a {
+	color: var(--color-primary);
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#shutdown a:hover {
+	text-decoration: none;
 }
